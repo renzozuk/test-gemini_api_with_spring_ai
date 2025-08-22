@@ -11,3 +11,14 @@ spring:
         completions-path: /v1beta/openai/chat/completions
         options:
           model: gemini-2.5-flash
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geminitest
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+logging:
+  level:
+    org.springframework.jdbc: DEBUG
+    com.zaxxer.hikari: DEBUG
+    org.springframework.ai: DEBUG
+    org.postgresql: DEBUG
