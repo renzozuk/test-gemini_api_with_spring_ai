@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: geminitest
+  ai:
+    openai:
+      api-key: ${GEMINI_API_KEY}
+      base-url: https://generativelanguage.googleapis.com
+      chat:
+        completions-path: /v1beta/openai/chat/completions
+        options:
+          model: gemini-2.5-flash
