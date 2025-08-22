@@ -1,17 +1,16 @@
 package dev.renzozukeram.geminitest.controllers;
 
 import dev.renzozukeram.geminitest.services.ChatService;
+import org.springframework.ai.chat.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/chat")
 public class ChatController {
 
     @Autowired
@@ -22,8 +21,19 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getModels());
     }
 
-    @GetMapping("/prompt")
-    public String prompt(@RequestParam String question) {
-        return chatService.getAnswer(question);
+    @PostMapping("/prompt")
+    public ResponseEntity<String> prompt(@RequestParam String question) {
+        return ResponseEntity.ok(chatService.getAnswer(question));
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<Message>> getHistory(@RequestParam String conversationId) {
+        return ResponseEntity.ok(chatService.getHistory(conversationId));
+    }
+
+    @DeleteMapping("/history")
+    public ResponseEntity<Void> deleteHistory(@RequestParam String conversationId) {
+        chatService.clearHistory(conversationId);
+        return ResponseEntity.noContent().build();
     }
 }
