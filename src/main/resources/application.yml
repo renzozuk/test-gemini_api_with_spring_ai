@@ -1,16 +1,31 @@
 spring:
-  config:
-    import: optional:file:.env[.properties]
   application:
     name: geminitest
+  config:
+    import: optional:file:.env[.properties]
   ai:
+    chat:
+      observations:
+        log-prompt: false
     openai:
       api-key: ${GEMINI_API_KEY}
-      base-url: https://generativelanguage.googleapis.com
+      base-url: https://generativelanguage.googleapis.com/v1beta/openai
       chat:
-        completions-path: /v1beta/openai/chat/completions
+        completions-path: /chat/completions
         options:
           model: gemini-2.5-flash
+          temperature: 0.0
+      embedding:
+        api-key: ${GEMINI_API_KEY}
+        base-url: https://generativelanguage.googleapis.com/v1beta/openai
+        options:
+          model: text-embedding-004
+          dimensions: 768
+        embeddings-path: /embeddings
+    vectorstore:
+      simple:
+        store:
+          path: ./vectorstore.json
   datasource:
     url: jdbc:postgresql://localhost:5432/geminitest
     username: ${DB_USERNAME}
