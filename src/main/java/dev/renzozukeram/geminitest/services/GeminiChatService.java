@@ -2,6 +2,7 @@ package dev.renzozukeram.geminitest.services;
 
 import dev.renzozukeram.geminitest.dto.PromptRequest;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -14,10 +15,12 @@ import java.util.UUID;
 public class GeminiChatService implements ChatService {
 
     private final ChatClient chatClient;
+    private final ChatMemory chatMemory;
     private final VectorStore vectorStore;
 
-    public GeminiChatService(ChatClient chatClient, VectorStore vectorStore) {
+    public GeminiChatService(ChatClient chatClient, ChatMemory chatMemory, VectorStore vectorStore) {
         this.chatClient = chatClient;
+        this.chatMemory = chatMemory;
         this.vectorStore = vectorStore;
     }
 
@@ -31,6 +34,7 @@ public class GeminiChatService implements ChatService {
                 : UUID.randomUUID().toString();
 
         return chatClient.prompt()
+//                .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
                 .advisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build(),
                         QuestionAnswerAdvisor.builder(vectorStore).build())
                 .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, conversationId))
