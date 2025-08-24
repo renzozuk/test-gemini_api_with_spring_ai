@@ -101,7 +101,7 @@ public class Config {
         var systemPrompt = "Você é um assistente virtual que irá guiar o usuário.";
         return chatClientBuilder.defaultSystem(systemPrompt)
 //                .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
-                .defaultAdvisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build(), QuestionAnswerAdvisor.builder(vectorStore).build())
+//                .defaultAdvisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build(), QuestionAnswerAdvisor.builder(vectorStore).build())
                 .build();
     }
 }
