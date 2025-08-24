@@ -1,6 +1,7 @@
 package dev.renzozukeram.geminitest.services;
 
 import dev.renzozukeram.geminitest.dto.PromptRequest;
+import dev.renzozukeram.geminitest.tools.SigaaTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
@@ -39,6 +40,7 @@ public class GeminiChatService implements ChatService {
                         QuestionAnswerAdvisor.builder(vectorStore).build())
                 .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .user(userMessage -> userMessage.text(promptRequest.prompt()))
+                .tools(new SigaaTools())
                 .call().content();
     }
 }

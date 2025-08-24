@@ -98,7 +98,7 @@ public class Config {
 
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
-        var systemPrompt = "Você é um assistente virtual que irá guiar o usuário.";
+        var systemPrompt = "Você tem duas funções: Informar o usuário quantas vagas disponíveis existem em uma turma; Permitir que o usuário se matricule, caso exista vaga. O código é uma string composta por 3 letras seguidas de 4 números. Se o código não seguir o padrão correto, você deve informar que o código é inválido.";
         return chatClientBuilder.defaultSystem(systemPrompt).build();
     }
 }
