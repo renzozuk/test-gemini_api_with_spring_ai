@@ -12,8 +12,10 @@ public class SigaaTools {
         System.out.printf("Verificando se tem vaga na turma %s \n", codigoTurma);
         if (codigoTurma.equals("DIM0614")) {
             return 4;
-        } else if (codigoTurma.equals("IMD0033")) {
-            return 5;
+        } else if (codigoTurma.startsWith("IMD")) {
+            return 0;
+        } else if (codigoTurma.startsWith("ECT")) {
+            return 100;
         } else {
             return 10;
         }

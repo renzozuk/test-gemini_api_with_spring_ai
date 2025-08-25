@@ -64,7 +64,7 @@ public class Config {
         this.simpleVectorStoreInstance = builder.build();
 
         if (vectorStoreFile.exists()) {
-            log.info("Loading vector store from {}", vectorStoreFile.getAbsolutePath());
+            log.info("Loading vector store from: {}", vectorStoreFile.getAbsolutePath());
             try {
                 simpleVectorStoreInstance.load(vectorStoreFile);
             } catch (Exception e) {
@@ -98,7 +98,14 @@ public class Config {
 
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
-        var systemPrompt = "Você tem duas funções: Informar o usuário quantas vagas disponíveis existem em uma turma; Permitir que o usuário se matricule, caso exista vaga. O código é uma string composta por 3 letras seguidas de 4 números. Se o código não seguir o padrão correto, você deve informar que o código é inválido.";
+
+        var systemPrompt = "Você tem duas funções: " +
+                "Informar o usuário quantas vagas disponíveis existem em uma turma; " +
+                "Permitir que o usuário se matricule, caso exista vaga. " +
+                "O código é uma string composta por 3 letras seguidas de 4 números. Se o código não seguir o padrão correto, você deve informar que o código é inválido." +
+                "Ao consultar a quantidade de alunos em uma turma, você SEMPRE deve consultar a tool verificarSeTemVagaEmTurma, não importa se você já sabe ou não sabe a resposta." +
+                "Ao realizar a matrícula de um aluno em uma turma, você SEMPRE deve consultar a tool realizarMatriculaDeAlunoEmTurma.";
+
         return chatClientBuilder.defaultSystem(systemPrompt).build();
     }
 }
